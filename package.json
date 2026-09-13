@@ -1,0 +1,33 @@
+{
+  "name": "g",
+  "version": "0.1.0",
+  "description": "Ask Google AI Mode from your terminal — opens the page, clicks Copy, prints the answer.",
+  "type": "module",
+  "bin": {
+    "g": "./g.ts"
+  },
+  "files": [
+    "g.ts",
+    "zsh-history.zsh"
+  ],
+  "scripts": {
+    "start": "bun run g.ts"
+  },
+  "keywords": [
+    "google",
+    "ai-mode",
+    "cli",
+    "macos",
+    "applescript",
+    "bun",
+    "terminal"
+  ],
+  "author": "Rakesh Tembhurne",
+  "license": "MIT",
+  "os": [
+    "darwin"
+  ],
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}

@@ -8,7 +8,7 @@
  *
  * Usage:
  *   g what is the capital of France
- *   g -c explain rust lifetimes          # close the tab when done
+ *   g -k explain rust lifetimes          # keep the tab open (default: close it)
  *   g -r how do generators work          # raw markdown (for piping/redirects)
  *   g -b brave why is the sky blue       # drive Brave instead of Safari
  *
@@ -23,7 +23,7 @@
 type Args = {
   query: string;
   browser: "safari" | "brave";
-  close: boolean;
+  keep: boolean;
   raw: boolean;
   timeout: number;
   help: boolean;
@@ -33,7 +33,7 @@ function parseArgs(argv: string[]): Args {
   const out: Args = {
     query: "",
     browser: (process.env.G_BROWSER as Args["browser"]) || "safari",
-    close: false,
+    keep: false,
     raw: false,
     timeout: 60,
     help: false,
@@ -42,7 +42,7 @@ function parseArgs(argv: string[]): Args {
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "-h" || a === "--help") out.help = true;
-    else if (a === "-c" || a === "--close") out.close = true;
+    else if (a === "-k" || a === "--keep") out.keep = true;
     else if (a === "-r" || a === "--raw") out.raw = true;
     else if (a === "-b" || a === "--browser") out.browser = (argv[++i] as Args["browser"]) ?? "safari";
     else if (a === "-t" || a === "--timeout") out.timeout = Number(argv[++i]) || 60;
@@ -60,14 +60,14 @@ Usage:
 
 Options:
   -b, --browser <safari|brave>  Which browser to drive (default: $G_BROWSER or safari)
-  -c, --close                   Close the tab once the answer is captured
+  -k, --keep                    Keep the tab open (default: the tab is closed)
   -r, --raw                     Print raw markdown (auto when piping/redirecting)
   -t, --timeout <seconds>       How long to wait for the answer (default: 60)
   -h, --help                    Show this help
 
 Examples:
   g what is the capital of France
-  g -c explain rust lifetimes
+  g -k explain rust lifetimes
   g -r summarize this article | pbcopy
 `;
 
@@ -349,7 +349,7 @@ Bun.spawnSync(["pbcopy"], { stdin: new TextEncoder().encode(sentinel) });
 
 process.stderr.write(`${dim("→")} Google AI Mode ${dim("·")} ${bold(args.query)}\n`);
 
-const res = await runOsa(buildScript(args.browser, url, args.timeout, args.close), true);
+const res = await runOsa(buildScript(args.browser, url, args.timeout, !args.keep), true);
 
 if (res.code !== 0) {
   const help = appleScriptHelp(res.err);

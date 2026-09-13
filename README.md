@@ -29,7 +29,7 @@ economic, and cultural centre, with an estimated city population of 2.04 million
 - A **Google account** logged into that browser
 - **"Allow JavaScript from Apple Events" enabled:**
   - **Safari** → *Settings ▸ Advanced* → tick **Show features for web developers**, then **Develop ▸ Allow JavaScript from Apple Events**
-  - **Brave** → **View ▸ Developer ▸ Allow JavaScript from Apple Events**, then **fully quit and reopen Brave** (Chromium only reads this setting at launch)
+  - **Brave** → **View ▸ Developer ▸ Allow JavaScript from Apple Events** (applies immediately; no restart needed)
 
 ## Install
 
@@ -77,14 +77,14 @@ g [options] <question>
 | Flag | Description |
 | --- | --- |
 | `-b, --browser <safari\|brave>` | Which browser to drive (default: `$G_BROWSER`, else `safari`) |
-| `-c, --close` | Close the tab once the answer is captured |
+| `-k, --keep` | Keep the tab open (by default the tab is closed once the answer is captured) |
 | `-r, --raw` | Print raw markdown (automatic when piping or redirecting) |
 | `-t, --timeout <seconds>` | How long to wait for the answer (default: `60`) |
 | `-h, --help` | Show help |
 
 ```sh
 g explain rust lifetimes in one paragraph
-g -c what is 2+2                                 # close the tab when done
+g -k what is 2+2                                 # keep the tab open
 g -b brave why is the sky blue                   # drive Brave
 g -r "summarize this" > answer.md                # raw markdown to a file
 g "give me a git cheat sheet" | pbcopy           # into the clipboard
@@ -135,7 +135,7 @@ source /path/to/g/zsh-history.zsh
 
 | Symptom | Fix |
 | --- | --- |
-| `JavaScript from Apple Events is disabled` | Enable it (see Requirements). **Restart Brave** after enabling. |
+| `JavaScript from Apple Events is disabled` | Enable it in your browser (see Requirements). In Brave/Chrome it is under **View ▸ Developer** and applies immediately. |
 | `macOS blocked AppleScript control of your browser` | System Settings ▸ Privacy & Security ▸ **Automation** → allow your terminal to control Safari/Brave. |
 | `No answer within Ns` | AI Mode may be unavailable for the account/region, or the page is slow. Raise `-t 120`. |
 | `no "Copy text" button was found` | Google changed its UI. Please open an issue with the page you saw. |
